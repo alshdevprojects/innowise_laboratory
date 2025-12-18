@@ -3,13 +3,18 @@ from typing import Generator, List
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from lecture_5.book_api.app import models, schemas, crud
-from lecture_5.book_api.app.database import SessionLocal, engine, Base
+from . import models, schemas, crud
+from .database import SessionLocal, engine, Base
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Simple Book Collection API")
+
+
+@app.get("/healthcheck")
+async def healthcheck() -> dict:
+         return {"status": "ok"}
 
 
 # Dependency to get DB session
